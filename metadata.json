@@ -1,0 +1,8 @@
+{
+  "name": "محرر الرقيم التربوي",
+  "description": "محرر الرقيم التربوي — المنصة الموحدة لإعداد وتحرير الوثائق والامتحانات المدرسية وفق المعايير التعليمية الرسمية.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

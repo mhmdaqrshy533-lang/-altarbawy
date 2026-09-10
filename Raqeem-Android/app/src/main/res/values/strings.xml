@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">محرر الرقيم التربوي</string>
+    <string name="app_name_en">Al-Raqeem Educational Editor</string>
+    <string name="app_tagline">المنصة الموحدة لإعداد وتحرير الوثائق والامتحانات المدرسية</string>
+    
+    <!-- Navigation -->
+    <string name="nav_home">الرئيسية</string>
+    <string name="nav_exams">الامتحانات</string>
+    <string name="nav_grades">الكشوفات والنتائج</string>
+    <string name="nav_certificates">الشهادات</string>
+    <string name="nav_books">الكتب والمذكرات</string>
+    <string name="nav_attendance">الغياب والمواظبة</string>
+    <string name="nav_documents">المستندات الرسمية</string>
+    <string name="nav_templates">القوالب</string>
+    <string name="nav_assets">بنك الأصول</string>
+    <string name="nav_settings">الإعدادات</string>
+
+    <!-- Actions -->
+    <string name="action_save">حفظ</string>
+    <string name="action_export_pdf">تصدير PDF</string>
+    <string name="action_print">طباعة المستند</string>
+    <string name="action_share">مشاركة</string>
+    <string name="action_add_question">إضافة سؤال</string>
+    <string name="action_add_page">إضافة صفحة</string>
+    <string name="action_back">رجوع</string>
+</resources>

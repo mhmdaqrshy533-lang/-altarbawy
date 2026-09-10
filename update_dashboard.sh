@@ -1,0 +1,1 @@
+sed -i "s/title: 'الذكاء الاصطناعي', icon: 'BrainCircuit', description: 'توليد ومساعدة ذكية'/title: 'Mistar EduOS', icon: 'BrainCircuit', description: 'الرؤية الوطنية 2040'/g" src/components/Dashboard.tsx

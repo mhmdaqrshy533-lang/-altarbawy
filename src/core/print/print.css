@@ -1,0 +1,54 @@
+/* Global Raqeem DTP Print Engine Stylesheet */
+
+@media print {
+  /* Reset browser print defaults */
+  body, html {
+    background: #ffffff !important;
+    color: #000000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    font-family: 'Amiri', 'Noto Naskh Arabic', 'Cairo', serif !important;
+  }
+
+  /* Hide screen-only interactive UI controls */
+  .no-print,
+  button,
+  header,
+  nav,
+  aside,
+  .command-palette-modal,
+  .editor-status-bar,
+  .quick-toolbar,
+  .action-buttons,
+  [role="dialog"] {
+    display: none !important;
+  }
+
+  /* Force page breaks cleanly between document pages */
+  .raq-print-page {
+    page-break-after: always !important;
+    break-after: page !important;
+    margin: 0 auto !important;
+    box-shadow: none !important;
+    border: none !important;
+    background: #ffffff !important;
+    overflow: hidden !important;
+  }
+
+  /* Support high resolution vector text and math equations */
+  .raq-print-page svg,
+  .raq-print-page img {
+    max-width: 100% !important;
+    height: auto !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Standard A4 portrait page size configuration */
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+}

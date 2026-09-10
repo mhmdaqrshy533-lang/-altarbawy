@@ -1,0 +1,1461 @@
+==================================================
+FILE 001
+PATH: .env.example
+TYPE: Environment Configuration
+SIZE: 445 bytes (10 lines)
+==================================================
+
+# GEMINI_API_KEY: Required for Gemini AI API calls.
+# AI Studio automatically injects this at runtime from user secrets.
+# Users configure this via the Secrets panel in the AI Studio UI.
+GEMINI_API_KEY="MY_GEMINI_API_KEY"
+
+# APP_URL: The URL where this applet is hosted.
+# AI Studio automatically injects this at runtime with the Cloud Run service URL.
+# Used for self-referential links, OAuth callbacks, and API endpoints.
+APP_URL="MY_APP_URL"
+
+
+==================================================
+END FILE 001
+==================================================
+
+==================================================
+FILE 002
+PATH: .gitignore
+TYPE: Git Ignore Configuration
+SIZE: 73 bytes (9 lines)
+==================================================
+
+node_modules/
+build/
+dist/
+coverage/
+.DS_Store
+*.log
+.env*
+!.env.example
+
+
+==================================================
+END FILE 002
+==================================================
+
+==================================================
+FILE 004
+PATH: generate-icons.mjs
+TYPE: Text File
+SIZE: 360 bytes (15 lines)
+==================================================
+
+import { Jimp } from 'jimp';
+
+async function createIcon(size) {
+  const image = new Jimp({ width: size, height: size, color: '#8b5cf6' });
+  await image.write(`public/pwa-${size}x${size}.png`);
+  console.log(`Created public/pwa-${size}x${size}.png`);
+}
+
+async function main() {
+  await createIcon(192);
+  await createIcon(512);
+}
+
+main().catch(console.error);
+
+
+==================================================
+END FILE 004
+==================================================
+
+==================================================
+FILE 005
+PATH: index.html
+TYPE: HTML Document
+SIZE: 1202 bytes (24 lines)
+==================================================
+
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>تطبيق الرقيم التعليمي | المنصة الشاملة للمعلم اليمني</title>
+    <meta name="description" content="المنصة التعليمية الشاملة للمعلم اليمني - امتحانات، أتمتة OMR، كشوفات درجات وخطط دون إنترنت" />
+    <meta name="theme-color" content="#1e293b" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="الرقيم" />
+    <meta name="application-name" content="الرقيم" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="apple-touch-icon" href="/pwa-192x192.png" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
+
+
+==================================================
+END FILE 005
+==================================================
+
+==================================================
+FILE 006
+PATH: metadata.json
+TYPE: JSON Configuration
+SIZE: 494 bytes (9 lines)
+==================================================
+
+{
+  "name": "الرقيم - المنصة الوطنية للوثائق التعليمية",
+  "description": "منصة تعليمية وطنية سيادية شاملة لإدارة وتأطير الوثائق والمستندات التعليمية والامتحانات والأتمتة دون إنترنت PWA، برمجة وتطوير المهندس//:سهيل الهزبري.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
+
+
+==================================================
+END FILE 006
+==================================================
+
+==================================================
+FILE 008
+PATH: package.json
+TYPE: JSON Configuration
+SIZE: 1767 bytes (64 lines)
+==================================================
+
+{
+  "name": "react-example",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx server.ts",
+    "build": "vite build && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs",
+    "start": "node dist/server.cjs",
+    "preview": "vite preview",
+    "clean": "rm -rf dist server.js",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@google/genai": "^2.10.0",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.6.1",
+    "@tailwindcss/vite": "^4.1.14",
+    "@types/qrcode": "^1.5.6",
+    "@types/three": "^0.185.1",
+    "@vitejs/plugin-react": "^5.0.4",
+    "better-sqlite3": "^12.11.1",
+    "clsx": "^2.1.1",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "drizzle-orm": "^0.45.2",
+    "express": "^4.22.2",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^4.2.1",
+    "katex": "^0.18.1",
+    "lucide-react": "^0.546.0",
+    "motion": "^12.23.24",
+    "multer": "^2.2.0",
+    "qrcode": "^1.5.4",
+    "react": "^19.0.1",
+    "react-dom": "^19.0.1",
+    "react-katex": "^3.1.0",
+    "react-rnd": "^10.5.3",
+    "tailwind-merge": "^3.6.0",
+    "three": "^0.185.1",
+    "vite": "^6.2.3",
+    "xlsx": "^0.18.5",
+    "zustand": "^5.0.14"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^4.17.25",
+    "@types/katex": "^0.16.8",
+    "@types/multer": "^2.2.0",
+    "@types/node": "^22.14.0",
+    "@types/react-katex": "^3.0.4",
+    "autoprefixer": "^10.4.21",
+    "drizzle-kit": "^0.31.10",
+    "esbuild": "^0.25.12",
+    "jimp": "^1.6.1",
+    "tailwindcss": "^4.1.14",
+    "tsx": "^4.23.0",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.3",
+    "vite-plugin-pwa": "^1.3.0"
+  }
+}
+
+
+==================================================
+END FILE 008
+==================================================
+
+==================================================
+FILE 009
+PATH: public/icon.svg
+TYPE: SVG Vector Image
+SIZE: 263 bytes (5 lines)
+==================================================
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" fill="#8b5cf6" rx="100"/>
+  <path d="M150 256 l75 75 l150 -150" stroke="#ffffff" stroke-width="40" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+
+==================================================
+END FILE 009
+==================================================
+
+==================================================
+FILE 010
+PATH: server.ts
+TYPE: TypeScript
+SIZE: 907 bytes (38 lines)
+==================================================
+
+import express from 'express';
+import path from 'path';
+import { createServer as createViteServer } from 'vite';
+import dotenv from 'dotenv';
+import { apiRouter } from './server/routes';
+
+dotenv.config();
+
+const app = express();
+const PORT = 3000;
+
+app.use(express.json());
+
+// Mount the Teacher Intelligence Layer API routes
+app.use('/api', apiRouter);
+
+async function startServer() {
+  if (process.env.NODE_ENV !== 'production') {
+    const vite = await createViteServer({
+      server: { middlewareMode: true },
+      appType: 'spa',
+    });
+    app.use(vite.middlewares);
+  } else {
+    const distPath = path.join(process.cwd(), 'dist');
+    app.use(express.static(distPath));
+    app.get('*', (req, res) => {
+      res.sendFile(path.join(distPath, 'index.html'));
+    });
+  }
+  
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server running on http://0.0.0.0:${PORT}`);
+  });
+}
+
+startServer();
+
+
+==================================================
+END FILE 010
+==================================================
+
+==================================================
+FILE 011
+PATH: server/db/index.ts
+TYPE: TypeScript
+SIZE: 1186 bytes (50 lines)
+==================================================
+
+import Database from 'better-sqlite3';
+import { drizzle } from 'drizzle-orm/better-sqlite3';
+import * as schema from './schema';
+import fs from 'fs';
+import path from 'path';
+
+// Create a database directory if it doesn't exist
+const dbPath = path.join(process.cwd(), 'sqlite.db');
+
+export const sqlite = new Database(dbPath);
+
+// Initialize tables if they don't exist
+sqlite.exec(`
+  CREATE TABLE IF NOT EXISTS ocr_results (
+    id TEXT PRIMARY KEY,
+    text TEXT NOT NULL,
+    language TEXT,
+    headings TEXT,
+    paragraphs TEXT,
+    tables TEXT,
+    images TEXT,
+    created_at INTEGER NOT NULL
+  );
+
+  CREATE TABLE IF NOT EXISTS concepts (
+    id TEXT PRIMARY KEY,
+    content_id TEXT NOT NULL,
+    extracted_concepts TEXT,
+    objectives TEXT,
+    blooms_level TEXT,
+    difficulty INTEGER,
+    keywords TEXT,
+    created_at INTEGER NOT NULL
+  );
+
+  CREATE TABLE IF NOT EXISTS generated_questions (
+    id TEXT PRIMARY KEY,
+    content_id TEXT NOT NULL,
+    type TEXT NOT NULL,
+    text TEXT NOT NULL,
+    options TEXT,
+    correct_answer TEXT,
+    bloom_level TEXT,
+    difficulty INTEGER,
+    created_at INTEGER NOT NULL
+  );
+`);
+
+export const db = drizzle(sqlite, { schema });
+
+
+==================================================
+END FILE 011
+==================================================
+
+==================================================
+FILE 012
+PATH: server/db/schema.ts
+TYPE: TypeScript
+SIZE: 1538 bytes (36 lines)
+==================================================
+
+import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
+
+export const ocrResults = sqliteTable('ocr_results', {
+  id: text('id').primaryKey(),
+  text: text('text').notNull(),
+  language: text('language'),
+  headings: text('headings', { mode: 'json' }).$type<string[]>(),
+  paragraphs: text('paragraphs', { mode: 'json' }).$type<string[]>(),
+  tables: text('tables', { mode: 'json' }).$type<any[]>(),
+  images: text('images', { mode: 'json' }).$type<any[]>(),
+  createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
+});
+
+export const concepts = sqliteTable('concepts', {
+  id: text('id').primaryKey(),
+  contentId: text('content_id').notNull(), // Links to uploaded content or lesson
+  extractedConcepts: text('extracted_concepts', { mode: 'json' }).$type<string[]>(),
+  objectives: text('objectives', { mode: 'json' }).$type<string[]>(),
+  bloomsLevel: text('blooms_level'),
+  difficulty: integer('difficulty'),
+  keywords: text('keywords', { mode: 'json' }).$type<string[]>(),
+  createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
+});
+
+export const generatedQuestions = sqliteTable('generated_questions', {
+  id: text('id').primaryKey(),
+  contentId: text('content_id').notNull(),
+  type: text('type').notNull(),
+  text: text('text').notNull(),
+  options: text('options', { mode: 'json' }).$type<string[]>(),
+  correctAnswer: text('correct_answer'),
+  bloomLevel: text('bloom_level'),
+  difficulty: integer('difficulty'),
+  createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
+});
+
+
+==================================================
+END FILE 012
+==================================================
+
+==================================================
+FILE 022
+PATH: src/App.tsx
+TYPE: TypeScript React
+SIZE: 7854 bytes (162 lines)
+==================================================
+
+/** * @license * SPDX-License-Identifier: Apache-2.0 */
+import React from 'react';
+import Dashboard from './components/Dashboard';
+import FinalResults from './pages/FinalResults';
+import DailyPlan from './pages/DailyPlan';
+import Attendance from './pages/Attendance';
+import ExamEditor from './editor/ExamEditor';
+import AnalyticalDashboard from './pages/AnalyticalDashboard';
+import TimetableScheduler from './pages/TimetableScheduler';
+import BubbleSheetProcessor from './pages/BubbleSheetProcessor';
+import Badges from './pages/Badges';
+import Certificates from './pages/Certificates';
+import MobileEducationalApp from './pages/MobileEducationalApp';
+import { motion, AnimatePresence } from 'motion/react';
+import { ArrowRight, Construction } from 'lucide-react';
+import MistarEduOS from './pages/MistarEduOS';
+import NotificationCenter from './components/NotificationCenter';
+import { useOS } from './context/OSContext';
+import { MainLayout } from './components/layout/MainLayout';
+import SmartGrading from './pages/SmartGrading';
+import GradeRecords from './pages/GradeRecords';
+import SmartMemos from './pages/SmartMemos';
+import BookStudio from './pages/BookStudio';
+import OfficialMemos from './pages/OfficialMemos';
+import TermPlan from './pages/TermPlan';
+import Archive from './pages/Archive';
+import ExportCenter from './pages/ExportCenter';
+import Settings from './pages/Settings';
+import BubbleSheets from './pages/BubbleSheets';
+import QuestionBank from './pages/QuestionBank';
+import StudentsPage from './pages/StudentsPage';
+import TeachersPage from './pages/TeachersPage';
+import TeacherServicesPage from './pages/TeacherServicesPage';
+import StudentServicesPage from './pages/StudentServicesPage';
+import ParentServicesPage from './pages/ParentServicesPage';
+import AutomationCenterPage from './pages/AutomationCenterPage';
+import { TemplateCenter } from './pages/TemplateCenter';
+import { Section } from './types';
+
+export default function App() {
+  const { activeApplet, launchApplet } = useOS();
+  const activePage = activeApplet || 'dashboard';
+  const setActivePage = launchApplet;
+
+  const renderPage = () => {
+    switch (activePage) {
+      case 'dashboard':
+        return <Dashboard onSelect={setActivePage} onOpenBadges={() => setActivePage('badges')} />;
+      case 'teacher_services':
+        return <TeacherServicesPage onBack={() => setActivePage('dashboard')} onSelect={setActivePage} />;
+      case 'student_services':
+        return <StudentServicesPage onBack={() => setActivePage('dashboard')} onSelect={setActivePage} />;
+      case 'parent_services':
+        return <ParentServicesPage onBack={() => setActivePage('dashboard')} onSelect={setActivePage} />;
+      case 'automation_center':
+        return <AutomationCenterPage onBack={() => setActivePage('dashboard')} onSelect={setActivePage} />;
+      case 'students_page':
+        return <StudentsPage onBack={() => setActivePage('dashboard')} />;
+      case 'teachers_page':
+        return <TeachersPage onBack={() => setActivePage('dashboard')} />;
+      case 'analytical_dashboard':
+      case 'dashboard_overview':
+        return <AnalyticalDashboard onBack={() => setActivePage('dashboard')} />;
+      case 'document_editor':
+        return <OfficialMemos onBack={() => setActivePage('dashboard')} />;
+      case 'exams_section':
+        return <ExamEditor />;
+      case 'attendance_section':
+        return <Attendance onBack={() => setActivePage('dashboard')} />;
+      case 'grades_section':
+        return <GradeRecords onBack={() => setActivePage('dashboard')} />;
+      case 'student_affairs':
+        return <Badges onBack={() => setActivePage('dashboard')} />;
+      case 'plans_section':
+        return <DailyPlan onBack={() => setActivePage('dashboard')} />;
+      case 'question_bank':
+        return <QuestionBank onBack={() => setActivePage('dashboard')} />;
+      case 'bubble_sheets':
+        return <BubbleSheets onBack={() => setActivePage('dashboard')} />;
+      case 'certificates_section':
+        return <Certificates onBack={() => setActivePage('dashboard')} />;
+      case 'mobile_app':
+        return <StudentsPage onBack={() => setActivePage('dashboard')} />;
+      case 'archive_section':
+        return <Archive onBack={() => setActivePage('dashboard')} />;
+      case 'templates_gallery':
+        return <TemplateCenter onBack={() => setActivePage('dashboard')} />;
+      case 'library_section':
+        return <SmartMemos onBack={() => setActivePage('dashboard')} />;
+      case 'teacher_tools':
+        return <TimetableScheduler onBack={() => setActivePage('dashboard')} />;
+      case 'ai_section':
+        return <MistarEduOS onBack={() => setActivePage('dashboard')} />;
+      case 'print_export':
+        return <ExportCenter onBack={() => setActivePage('dashboard')} />;
+      case 'settings':
+        return <Settings onBack={() => setActivePage('dashboard')} />;
+            
+      case 'reports_section':
+        return <AnalyticalDashboard onBack={() => setActivePage('dashboard')} />;
+      case 'timetables_section':
+        return <TimetableScheduler onBack={() => setActivePage('dashboard')} />;
+      case 'worksheets_section':
+        return <OfficialMemos onBack={() => setActivePage('dashboard')} />;
+      case 'forms_section':
+        return <Badges onBack={() => setActivePage('dashboard')} />;
+      case 'books_section':
+        return <BookStudio onBack={() => setActivePage('dashboard')} />;
+      case 'labs_section':
+        return <SmartMemos onBack={() => setActivePage('dashboard')} />;
+      case 'resources_center':
+        return <Archive onBack={() => setActivePage('dashboard')} />;
+            
+      // Kept for direct access or future nested routes
+      case 'automation':
+      case 'smart_correction':
+        return <BubbleSheetProcessor onBack={() => setActivePage('dashboard')} />;
+      case 'monthly':
+        return <AnalyticalDashboard onBack={() => setActivePage('dashboard')} />;
+      case 'daily':
+        return <DailyPlan onBack={() => setActivePage('dashboard')} />;
+      case 'term_plan':
+        return <TermPlan onBack={() => setActivePage('dashboard')} />;
+      case 'results':
+        return <FinalResults onBack={() => setActivePage('dashboard')} />;
+      case 'progress_cards':
+        return <GradeRecords onBack={() => setActivePage('dashboard')} />;
+      case 'badges':
+        return <Badges onBack={() => setActivePage('dashboard')} />;
+      case 'official_memos':
+        return <OfficialMemos onBack={() => setActivePage('dashboard')} />;
+      default:
+        return (
+          <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 p-6 text-center select-none font-sans">
+            <div className="bg-white p-12 rounded-[3rem] shadow-2xl border border-slate-100 max-w-md w-full">
+              <div className="w-20 h-20 bg-sky-100 text-[#004B6E] rounded-3xl flex items-center justify-center mx-auto mb-6">
+                <Construction size={40} />
+              </div>
+              <h2 className="text-3xl font-black text-slate-800 mb-2">قريباً جداً</h2>
+              <p className="text-slate-500 font-bold mb-8">
+                القسم ({activePage}) قيد التطوير ليتكامل مع نموذج الذكاء الاصطناعي السيادي.
+              </p>
+              <button 
+                onClick={() => setActivePage('dashboard')}
+                className="w-full flex items-center justify-center gap-2 bg-[#004B6E] text-white py-4 rounded-2xl font-black shadow-lg shadow-sky-900/20 hover:bg-sky-800 transition-all"
+              >
+                <ArrowRight size={20} />
+                العودة للرئيسية
+              </button>
+            </div>
+          </div>
+        );
+    }
+  };
+
+  return (
+    <MainLayout>
+      {renderPage()}
+    </MainLayout>
+  );
+}
+
+
+==================================================
+END FILE 022
+==================================================
+
+==================================================
+FILE 051
+PATH: src/context/RoleContext.tsx
+TYPE: TypeScript React
+SIZE: 3719 bytes (116 lines)
+==================================================
+
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { EducationRole, EducationRoleID, EDUCATION_ROLES } from '../types/roles';
+
+export interface NationalHeaderInfo {
+  republic: string;
+  ministry: string;
+  office: string;
+  directorate: string;
+  schoolName: string;
+  academicYear: string;
+  term: string;
+  officialTitleName: string;
+  authorName: string;
+  logoType: 'yemen_republic' | 'custom' | 'none';
+  customLogoUrl?: string;
+  showSeal: boolean;
+  showQR: boolean;
+  developerCredit: string;
+}
+
+interface RoleContextType {
+  currentRole: EducationRole;
+  setRole: (roleId: EducationRoleID) => void;
+  headerInfo: NationalHeaderInfo;
+  updateHeaderInfo: (info: Partial<NationalHeaderInfo>) => void;
+  allRoles: EducationRole[];
+}
+
+const defaultHeaderInfo: NationalHeaderInfo = {
+  republic: 'الجمهورية اليمنية',
+  ministry: 'وزارة التربية والتعليم',
+  office: 'مكتب التربية والتعليم أمانة العاصمة',
+  directorate: 'إدارة التربية والتعليم بالمديرية',
+  schoolName: 'مدرسة الرقيم النموذجية الثانوية',
+  academicYear: '2024/2025م',
+  term: 'الفصل الدراسي الأول',
+  officialTitleName: 'مكتب أستاذ المادة',
+  authorName: 'أ/ محمد الهزبري',
+  logoType: 'yemen_republic',
+  showSeal: true,
+  showQR: true,
+  developerCredit: 'الرقيم - المنصة الوطنية للوثائق التعليمية | برمجة وتطوير المهندس//:سهيل الهزبري'
+};
+
+const RoleContext = createContext<RoleContextType | undefined>(undefined);
+
+export const RoleProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [currentRoleId, setCurrentRoleId] = useState<EducationRoleID>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('raq_active_role');
+      if (saved && EDUCATION_ROLES[saved as EducationRoleID]) {
+        return saved as EducationRoleID;
+      }
+    }
+    return 'teacher';
+  });
+
+  const [headerInfo, setHeaderInfo] = useState<NationalHeaderInfo>(() => {
+    if (typeof window !== 'undefined') {
+      const savedHeader = localStorage.getItem('raq_header_info');
+      if (savedHeader) {
+        try {
+          return { ...defaultHeaderInfo, ...JSON.parse(savedHeader) };
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    }
+    return defaultHeaderInfo;
+  });
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('raq_active_role', currentRoleId);
+    }
+  }, [currentRoleId]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('raq_header_info', JSON.stringify(headerInfo));
+    }
+  }, [headerInfo]);
+
+  const setRole = (roleId: EducationRoleID) => {
+    if (EDUCATION_ROLES[roleId]) {
+      setCurrentRoleId(roleId);
+      // Automatically update official header title based on role
+      setHeaderInfo(prev => ({
+        ...prev,
+        officialTitleName: EDUCATION_ROLES[roleId].officialTitle
+      }));
+    }
+  };
+
+  const updateHeaderInfo = (info: Partial<NationalHeaderInfo>) => {
+    setHeaderInfo(prev => ({ ...prev, ...info }));
+  };
+
+  const currentRole = EDUCATION_ROLES[currentRoleId] || EDUCATION_ROLES.teacher;
+  const allRoles = Object.values(EDUCATION_ROLES);
+
+  return (
+    <RoleContext.Provider value={{ currentRole, setRole, headerInfo, updateHeaderInfo, allRoles }}>
+      {children}
+    </RoleContext.Provider>
+  );
+};
+
+export const useRole = () => {
+  const context = useContext(RoleContext);
+  if (!context) {
+    throw new Error('useRole must be used within a RoleProvider');
+  }
+  return context;
+};
+
+
+==================================================
+END FILE 051
+==================================================
+
+==================================================
+FILE 052
+PATH: src/core/AIContextEngine.ts
+TYPE: TypeScript
+SIZE: 2074 bytes (68 lines)
+==================================================
+
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+// Local Context Engine (Offline-First Pattern Recognition)
+// يتولى هذا المحرك حفظ سلوكيات المعلم والتعرف على الأنماط لتسريع الإدخال
+export class AIContextEngine {
+  private static instance: AIContextEngine;
+  private memoryKey = 'mistar_ai_memory';
+
+  private constructor() {}
+
+  public static getInstance(): AIContextEngine {
+    if (!AIContextEngine.instance) {
+      AIContextEngine.instance = new AIContextEngine();
+    }
+    return AIContextEngine.instance;
+  }
+
+  // حفظ سياق نشاط معين
+  public logAction(actionType: string, data: any) {
+    const memory = this.getMemory();
+    if (!memory[actionType]) memory[actionType] = [];
+    
+    memory[actionType].push({
+      timestamp: Date.now(),
+      data
+    });
+
+    // الاحتفاظ بآخر 100 إجراء فقط لكل نوع للحفاظ على الذاكرة
+    if (memory[actionType].length > 100) {
+      memory[actionType].shift();
+    }
+
+    localStorage.setItem(this.memoryKey, JSON.stringify(memory));
+  }
+
+  // التنبؤ بالإجراء القادم بناءً على الأنماط السابقة
+  public predictNextAction(actionType: string): any | null {
+    const memory = this.getMemory();
+    const actions = memory[actionType];
+    
+    if (!actions || actions.length === 0) return null;
+    
+    // خوارزمية بسيطة للتعرف على النمط: إرجاع الإجراء الأكثر تكراراً
+    const frequency: Record<string, number> = {};
+    let mostFrequent = null;
+    let maxCount = 0;
+
+    for (const action of actions) {
+      const key = JSON.stringify(action.data);
+      frequency[key] = (frequency[key] || 0) + 1;
+      if (frequency[key] > maxCount) {
+        maxCount = frequency[key];
+        mostFrequent = action.data;
+      }
+    }
+
+    return mostFrequent;
+  }
+
+  private getMemory(): Record<string, any[]> {
+    const data = localStorage.getItem(this.memoryKey);
+    return data ? JSON.parse(data) : {};
+  }
+}
+
+
+==================================================
+END FILE 052
+==================================================
+
+==================================================
+FILE 053
+PATH: src/core/AnalyticalEngine.ts
+TYPE: TypeScript
+SIZE: 2372 bytes (62 lines)
+==================================================
+
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+// Analytical Engine (Predictive Algorithms & Decision Trees)
+// يعتمد على معالجة البيانات محلياً دون الحاجة لنموذج لغوي للدردشة
+export class AnalyticalEngine {
+  // توقع تعثر الطلاب باستخدام شجرة قرارات مبسطة ومؤشرات أداء
+  public static predictAtRiskStudents(studentsData: any[]): any[] {
+    return studentsData.map(student => {
+      let riskScore = 0;
+      const riskFactors: string[] = [];
+      
+      // Decision Tree logic
+      if (student.attendanceRate < 85) {
+        riskScore += 40;
+        riskFactors.push('غياب متكرر');
+      }
+      if (student.averageScore < 60) {
+        riskScore += 30;
+        riskFactors.push('ضعف أكاديمي عام');
+      }
+      if (student.lastTestScore < student.averageScore - 10) {
+        riskScore += 20;
+        riskFactors.push('تراجع مفاجئ في المستوى');
+      }
+      if (student.homeworkCompletion < 70) {
+        riskScore += 10;
+        riskFactors.push('إهمال الواجبات');
+      }
+      
+      let status = 'آمن';
+      let statusColor = 'bg-green-100 text-green-700';
+      if (riskScore >= 70) {
+        status = 'خطر رسوب مؤكد';
+        statusColor = 'bg-red-100 text-red-700';
+      }
+      else if (riskScore >= 40) {
+        status = 'يحتاج تدخل';
+        statusColor = 'bg-yellow-100 text-yellow-700';
+      }
+
+      return {
+        ...student,
+        riskScore,
+        riskFactors,
+        prediction: status,
+        statusColor,
+        recommendedAction: this.getRecommendation(riskScore, student)
+      };
+    }).sort((a, b) => b.riskScore - a.riskScore); // ترتيب من الأكثر خطورة
+  }
+
+  private static getRecommendation(riskScore: number, student: any): string {
+    if (student.attendanceRate < 85) return 'إرسال إنذار آلي لولي الأمر وجدولة استدعاء.';
+    if (student.averageScore < 60) return 'تسجيل الطالب آلياً في فصول التقوية المكثفة للمادة.';
+    if (student.lastTestScore < student.averageScore - 10) return 'مراجعة ورقة الاختبار الأخيرة مع الطالب وتحديد نقاط الضعف.';
+    return 'متابعة دورية.';
+  }
+}
+
+
+==================================================
+END FILE 053
+==================================================
+
+==================================================
+FILE 054
+PATH: src/core/GamificationSystem.ts
+TYPE: TypeScript
+SIZE: 1443 bytes (51 lines)
+==================================================
+
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { useState, useEffect } from 'react';
+
+// نظام دوبامين الإنجاز (Gamification Logic)
+// يدير شريط الإنجاز اليومي ويحفظ الحالة محلياً
+export function useGamification() {
+  const [progress, setProgress] = useState(0);
+  const [showCelebration, setShowCelebration] = useState(false);
+
+  useEffect(() => {
+    // جلب حالة الإنجاز من (Local Database / Storage)
+    const saved = localStorage.getItem('mistar_daily_progress') || '85';
+    setProgress(parseInt(saved, 10));
+  }, []);
+
+  const addProgress = (amount: number) => {
+    setProgress(prev => {
+      if (prev >= 100) return prev;
+      
+      const newProgress = Math.min(prev + amount, 100);
+      
+      // حفظ الحالة محلياً (Offline First)
+      localStorage.setItem('mistar_daily_progress', newProgress.toString());
+      
+      // تفعيل تأثير التوهج عند الوصول لـ 100%
+      if (newProgress === 100) {
+        setShowCelebration(true);
+        // إخفاء الاحتفال بعد 5 ثواني
+        setTimeout(() => setShowCelebration(false), 5000);
+      }
+      return newProgress;
+    });
+  };
+
+  const resetProgress = () => {
+    setProgress(0);
+    localStorage.setItem('mistar_daily_progress', '0');
+  };
+
+  return {
+    progress,
+    showCelebration,
+    addProgress,
+    resetProgress
+  };
+}
+
+
+==================================================
+END FILE 054
+==================================================
+
+==================================================
+FILE 057
+PATH: src/core/SchedulingEngine.ts
+TYPE: TypeScript
+SIZE: 1809 bytes (58 lines)
+==================================================
+
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+// Rule-based Decision Engine for Timetable Scheduling
+// Constraint Satisfaction Problem (CSP) Resolver
+export class SchedulingEngine {
+  public static generateTimetable(
+    teachers: { id: string, name: string, subject: string, maxHours: number }[], 
+    classes: { id: string, name: string }[], 
+    subjectsPerWeek: Record<string, number>
+  ): any {
+    // محاكاة خوارزمية CSP لتوزيع الحصص
+    const schedule: any = {};
+    const days = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس'];
+    const periods = [1, 2, 3, 4, 5, 6];
+
+    // Initialize schedule
+    classes.forEach(cls => {
+      schedule[cls.id] = { name: cls.name, timetable: {} };
+      days.forEach(day => {
+        schedule[cls.id].timetable[day] = {};
+        periods.forEach(period => {
+          schedule[cls.id].timetable[day][period] = null;
+        });
+      });
+    });
+
+    // Algorithmic allocation (simplified heuristic)
+    classes.forEach(cls => {
+      Object.entries(subjectsPerWeek).forEach(([subject, count]) => {
+        let placed = 0;
+        const availableTeachers = teachers.filter(t => t.subject === subject);
+        if (availableTeachers.length === 0) return;
+
+        const teacher = availableTeachers[0]; // simplistic assignment
+
+        days.forEach(day => {
+          if (placed >= count) return;
+          periods.forEach(period => {
+            if (placed >= count) return;
+            if (!schedule[cls.id].timetable[day][period]) {
+              schedule[cls.id].timetable[day][period] = {
+                subject,
+                teacher: teacher.name
+              };
+              placed++;
+            }
+          });
+        });
+      });
+    });
+
+    return schedule;
+  }
+}
+
+
+==================================================
+END FILE 057
+==================================================
+
+==================================================
+FILE 058
+PATH: src/core/SovereignDocumentEngine.ts
+TYPE: TypeScript
+SIZE: 4091 bytes (107 lines)
+==================================================
+
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import jsPDF from 'jspdf';
+import QRCode from 'qrcode';
+
+// محرك المستندات السيادي (Sovereign Output Engine)
+// يتولى إصدار التقارير والشهادات بمظهر يضاهي المطابع المركزية
+export class SovereignDocumentEngine {
+  
+  public static async generateOfficialDocument(title: string, content: string[], schoolName: string = 'مدرسة مِسْطار النموذجية') {
+    // تشغيل العملية في خلفية غير متزامنة لمنع تجميد الواجهة
+    return new Promise<void>(async (resolve) => {
+      
+      const doc = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4'
+      });
+
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const pageHeight = doc.internal.pageSize.getHeight();
+      
+      // 0. العلامة المائية (Sovereign Watermark)
+      doc.setTextColor(230, 230, 240); // لون فاتح جداً
+      doc.setFontSize(80);
+      // تدوير العلامة المائية
+      doc.text('M I S T A R', pageWidth / 2, pageHeight / 2, {
+        align: 'center',
+        angle: 45
+      });
+      
+      // 1. الترويسة السيادية (الهوية)
+      doc.setFillColor(76, 29, 149); // لون بنفسجي ملكي
+      doc.rect(0, 0, pageWidth, 25, 'F');
+      
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(20);
+      doc.text('M I S T A R', pageWidth / 2, 16, { align: 'center' });
+      
+      // 2. بيانات المدرسة والتاريخ
+      doc.setTextColor(50, 50, 50);
+      doc.setFontSize(14);
+      
+      // لمحاكاة الخطوط العربية، سنستخدم اتجاه اليمين
+      doc.text(schoolName, pageWidth - 20, 40, { align: 'right' });
+      doc.text(new Date().toLocaleDateString('en-GB'), 20, 40); // التاريخ
+      
+      // 3. خط فاصل احترافي (المسطرة)
+      doc.setLineWidth(0.5);
+      doc.setDrawColor(76, 29, 149);
+      doc.line(20, 48, pageWidth - 20, 48);
+
+      // 4. العنوان الرئيسي
+      doc.setFontSize(22);
+      doc.setTextColor(76, 29, 149);
+      doc.text(title, pageWidth / 2, 65, { align: 'center' });
+
+      // 5. المحتوى (الفقرات)
+      doc.setFontSize(12);
+      doc.setTextColor(0, 0, 0);
+      let yPos = 90;
+      
+      content.forEach(line => {
+        if (yPos > pageHeight - 60) {
+          doc.addPage();
+          // إعادة رسم العلامة المائية في الصفحة الجديدة
+          doc.setTextColor(230, 230, 240);
+          doc.setFontSize(80);
+          doc.text('M I S T A R', pageWidth / 2, pageHeight / 2, { align: 'center', angle: 45 });
+          doc.setTextColor(0, 0, 0);
+          doc.setFontSize(12);
+          yPos = 30;
+        }
+        doc.text(line, pageWidth - 20, yPos, { align: 'right' });
+        yPos += 12; // تباعد سطور مثالي
+      });
+
+      // 6. التذييل والتوقيع والـ QR Code
+      doc.setLineWidth(0.2);
+      doc.setDrawColor(200, 200, 200);
+      doc.line(20, pageHeight - 45, pageWidth - 20, pageHeight - 45);
+      
+      doc.setFontSize(10);
+      doc.setTextColor(100, 100, 100);
+      doc.text('توقيع مدير المدرسة', pageWidth - 40, pageHeight - 30, { align: 'center' });
+      doc.text('توقيع المعلم', 40, pageHeight - 30, { align: 'center' });
+      
+      // توليد وإضافة QR Code للتوثيق
+      try {
+        const qrDataUrl = await QRCode.toDataURL(`Mistar Auth: ${title} | ${new Date().toISOString()}`, { margin: 1 });
+        doc.addImage(qrDataUrl, 'PNG', (pageWidth / 2) - 10, pageHeight - 40, 20, 20);
+        doc.setFontSize(8);
+        doc.text('وثيقة معتمدة رقمياً', pageWidth / 2, pageHeight - 15, { align: 'center' });
+      } catch (err) {
+        console.error('Failed to generate QR Code', err);
+      }
+
+      // حفظ المستند
+      doc.save(`${title.replace(/\s+/g, '_')}_Mistar.pdf`);
+      resolve();
+    });
+  }
+}
+
+
+==================================================
+END FILE 058
+==================================================
+
+==================================================
+FILE 059
+PATH: src/core/VisionEngine.ts
+TYPE: TypeScript
+SIZE: 1648 bytes (46 lines)
+==================================================
+
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+// Vision Engine for Path Smoothing and SVG Generation
+// يحاكي محرك التصحيح البصري (OpenCV) لتحويل الرسم اليدوي إلى رسومات هندسية احترافية
+export class VisionEngine {
+  
+  // خوارزمية تنعيم المسار (Path Smoothing) 
+  public static smoothPath(points: {x: number, y: number}[]): string {
+    if (points.length === 0) return '';
+    if (points.length < 3) {
+      return `M ${points.map(p => `${p.x},${p.y}`).join(' L ')}`;
+    }
+
+    let d = `M ${points[0].x},${points[0].y} `;
+    
+    for (let i = 0; i < points.length - 1; i++) {
+      const p0 = i > 0 ? points[i - 1] : points[0];
+      const p1 = points[i];
+      const p2 = points[i + 1];
+      const p3 = i != points.length - 2 ? points[i + 2] : p2;
+
+      // حساب نقاط التحكم
+      const cp1x = p1.x + (p2.x - p0.x) / 6;
+      const cp1y = p1.y + (p2.y - p0.y) / 6;
+      
+      const cp2x = p2.x - (p3.x - p1.x) / 6;
+      const cp2y = p2.y - (p3.y - p1.y) / 6;
+
+      d += `C ${cp1x},${cp1y} ${cp2x},${cp2y} ${p2.x},${p2.y} `;
+    }
+
+    return d;
+  }
+
+  // تحويل المسار إلى SVG جاهز للطباعة
+  public static generateSVG(points: {x: number, y: number}[], strokeColor = '#4c1d95', strokeWidth = 3): string {
+    const path = this.smoothPath(points);
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 500 500">
+      <path d="${path}" fill="none" stroke="${strokeColor}" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>`;
+  }
+}
+
+
+==================================================
+END FILE 059
+==================================================
+
+==================================================
+FILE 060
+PATH: src/core/designSystem.ts
+TYPE: TypeScript
+SIZE: 3392 bytes (99 lines)
+==================================================
+
+/**
+ * Raqeem Unified Design System (نظام تصميم الرقيم الموحد)
+ * Central design tokens, color palettes, workspace modes, typography, and UI guidelines.
+ */
+
+export const RaqeemDesignSystem = {
+  brand: {
+    name: 'الرقيم',
+    title: 'منصة الرقيم للنشر والتحرير التعليمي',
+    version: '3.5 Pro',
+  },
+  colors: {
+    primary: {
+      50: '#f0f3ff',
+      100: '#e0e7ff',
+      500: '#6366f1',
+      600: '#4f46e5',
+      700: '#4338ca',
+      900: '#1e1b4b',
+    },
+    emerald: {
+      50: '#ecfdf5',
+      500: '#10b981',
+      600: '#059669',
+      700: '#047857',
+    },
+    amber: {
+      50: '#fffbeb',
+      400: '#fbbf24',
+      600: '#d97706',
+    },
+    slate: {
+      50: '#f8fafc',
+      100: '#f1f5f9',
+      200: '#e2e8f0',
+      300: '#cbd5e1',
+      700: '#334155',
+      800: '#1e293b',
+      900: '#0f172a',
+    }
+  },
+  typography: {
+    fontFamilies: {
+      arabicDefault: "'Amiri', 'Traditional Arabic', 'Sakkal Majalla', serif",
+      arabicModern: "'Noto Naskh Arabic', 'Cairo', sans-serif",
+      arabicHeadline: "'Reem Kufi', 'Scheherazade New', serif",
+      mathLaTeX: "'STIX Two Math', 'Times New Roman', serif",
+    },
+    scales: {
+      xs: '0.75rem',  // 12px
+      sm: '0.875rem', // 14px
+      base: '1rem',    // 16px
+      lg: '1.125rem',  // 18px
+      xl: '1.25rem',   // 20px
+      '2xl': '1.5rem', // 24px
+      '3xl': '1.875rem',// 30px
+    }
+  },
+  workspaces: [
+    {
+      id: 'exam',
+      label: 'مساحة الامتحانات والأتمتة',
+      description: 'إعداد الامتحانات الوطنية، بنك الأسئلة، التصحيح الآلي، وجداول المواصفات',
+      icon: 'FileSpreadsheet',
+      accentColor: 'indigo',
+    },
+    {
+      id: 'book',
+      label: 'مساحة الكتب والمذكرات',
+      description: 'تأليف المناهج، المذكرات الرسمية، وتصميم الملازم المدرسية متعددة الصفحات',
+      icon: 'BookOpen',
+      accentColor: 'emerald',
+    },
+    {
+      id: 'certificate',
+      label: 'مساحة الشهادات والنتائج',
+      description: 'تصميم شهادات التقدير، بطاقات الجلوس، وكشوف درجات الطلاب الشاملة',
+      icon: 'Award',
+      accentColor: 'amber',
+    },
+    {
+      id: 'documents',
+      label: 'مساحة الخطط والتحضير',
+      description: 'إعداد الخطط الدراسية اليومية والفصلية، وسجلات الحضور والغياب اليومي',
+      icon: 'Calendar',
+      accentColor: 'blue',
+    },
+  ],
+  keyboardShortcuts: [
+    { key: 'Ctrl + Shift + P', description: 'فتح لوحة الأوامر السريعة (Command Palette)' },
+    { key: 'Ctrl + Z', description: 'تراجع عن العمل الأخير (Undo)' },
+    { key: 'Ctrl + Y / Ctrl + Shift + Z', description: 'إعادة العمل المتراجع عنه (Redo)' },
+    { key: 'Ctrl + P', description: 'طباعة فورية عالية الدقة' },
+    { key: 'Ctrl + S', description: 'حفظ المشروع تلقائياً' },
+    { key: 'Ctrl + Shift + F', description: 'فتح مكتبة الخطوط العربية واللاتينية' },
+    { key: 'Ctrl + + / Ctrl + -', description: 'تكبير وتصغير مساحة العمل (Zoom)' },
+  ]
+};
+
+
+==================================================
+END FILE 060
+==================================================
+
+==================================================
+FILE 182
+PATH: update_dashboard_os.sh
+TYPE: Shell Script
+SIZE: 13291 bytes (192 lines)
+==================================================
+
+cat << 'INNER_EOF' > src/components/Dashboard.tsx
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
+import { motion, AnimatePresence } from 'motion/react';
+import { useEffect, useState } from 'react';
+import { 
+  FileText, Printer, CalendarDays, UserCheck, LayoutDashboard, 
+  Users, GraduationCap, Database, Award, Archive, Library, 
+  Wrench, Settings, BrainCircuit, FileSignature, Trophy, 
+  Activity, Send, MessageCircle, HelpCircle, Lock, Youtube, 
+  AlertTriangle, Brain, Sparkles, ScanLine, Cpu, BellRing, ChevronLeft, Command
+} from 'lucide-react';
+import { Section } from '../types';
+import { useGamification } from '../core/GamificationSystem';
+
+export const sections: Section[] = [
+  { id: 'dashboard_overview', title: 'التحليلات الوطنية', icon: 'LayoutDashboard', description: 'رؤية شاملة للأداء', color: 'bg-indigo-600' },
+  { id: 'smart_correction', title: 'التصحيح الذكي', icon: 'ScanLine', description: 'OCR/OMR فوري', color: 'bg-emerald-600' },
+  { id: 'document_editor', title: 'المستندات الرسمية', icon: 'FileText', description: 'خطابات ونماذج', color: 'bg-blue-600' },
+  { id: 'exams_section', title: 'محرر الاختبارات', icon: 'FileSignature', description: 'توليد ذكي للأسئلة', color: 'bg-purple-600' },
+  { id: 'attendance_section', title: 'الحضور الاستباقي', icon: 'UserCheck', description: 'متابعة ذكية', color: 'bg-rose-600' },
+  { id: 'grades_section', title: 'سجل الدرجات', icon: 'GraduationCap', description: 'رصد وتحليل', color: 'bg-amber-600' },
+  { id: 'student_affairs', title: 'شؤون الطلاب', icon: 'Users', description: 'تتبع السلوك والميول', color: 'bg-orange-600' },
+  { id: 'plans_section', title: 'المسار التعليمي', icon: 'CalendarDays', description: 'خطط ديناميكية', color: 'bg-teal-600' },
+  { id: 'question_bank', title: 'بنك المعرفة', icon: 'Database', description: 'أسئلة وتصنيفات', color: 'bg-cyan-600' },
+  { id: 'certificates_section', title: 'سجلات الإنجاز', icon: 'Award', description: 'محافظ رقمية', color: 'bg-pink-600' },
+  { id: 'archive_section', title: 'الأرشيف المركزي', icon: 'Archive', description: 'حفظ آمن للملفات', color: 'bg-slate-600' },
+  { id: 'library_section', title: 'المكتبة الرقمية', icon: 'Library', description: 'مصادر تفاعلية', color: 'bg-sky-600' },
+  { id: 'teacher_tools', title: 'مساعد التدريس', icon: 'Wrench', description: 'أدوات المعلم الذكية', color: 'bg-lime-600' },
+  { id: 'ai_section', title: 'Mistar EduOS', icon: 'BrainCircuit', description: 'الرؤية الوطنية 2040', color: 'bg-fuchsia-600' },
+  { id: 'print_export', title: 'بوابة التصدير', icon: 'Printer', description: 'التقارير الرسمية', color: 'bg-emerald-500' },
+  { id: 'settings', title: 'إعدادات النظام', icon: 'Settings', description: 'تخصيص وبيانات', color: 'bg-slate-700' }
+];
+
+const iconMap: Record<string, any> = {
+  LayoutDashboard, FileText, FileSignature, UserCheck, GraduationCap, Users, CalendarDays, Database, Award, Archive, Library, Wrench, BrainCircuit, Printer, Settings, ScanLine
+};
+
+export default function Dashboard({ onSelect, onOpenBadges }: { onSelect: (id: string) => void, onOpenBadges: () => void }) {
+  const [time, setTime] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => setTime(new Date()), 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-[#0B0F19] text-slate-200 font-sans select-none overflow-hidden flex flex-col relative">
+      {/* Dynamic Background Pattern */}
+      <div className="absolute inset-0 pointer-events-none opacity-20">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
+      </div>
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-indigo-900/20 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-900/20 rounded-full blur-[120px] pointer-events-none"></div>
+
+      {/* OS Header */}
+      <header className="relative z-20 flex items-center justify-between px-6 py-4 border-b border-slate-800/60 bg-slate-900/50 backdrop-blur-md">
+        <div className="flex items-center gap-4">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/20 border border-indigo-400/30">
+            <Command size={20} />
+          </div>
+          <div>
+            <h1 className="text-xl font-black text-white tracking-tight flex items-center gap-2">
+              Mistar EduOS <span className="text-[10px] bg-indigo-500/20 text-indigo-300 px-1.5 py-0.5 rounded font-mono border border-indigo-500/30">v4.0.0-beta</span>
+            </h1>
+            <p className="text-slate-400 text-xs font-medium tracking-wide">نظام التشغيل التعليمي الاستباقي</p>
+          </div>
+        </div>
+        
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 px-4 py-2 bg-slate-800/50 rounded-xl border border-slate-700/50 backdrop-blur-sm font-mono text-sm">
+            <span className="text-slate-400">{time.toLocaleDateString('ar-SA')}</span>
+            <span className="text-slate-600">|</span>
+            <span className="text-indigo-400 font-bold">{time.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute:'2-digit' })}</span>
+          </div>
+          <button className="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-800/50 border border-slate-700/50 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors relative">
+            <BellRing size={18} />
+            <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+          </button>
+        </div>
+      </header>
+
+      <div className="flex-1 flex flex-col md:flex-row relative z-10 h-[calc(100vh-73px)]">
+        {/* Proactive AI Panel */}
+        <aside className="w-full md:w-96 border-l border-slate-800/60 bg-slate-900/30 backdrop-blur-sm p-6 overflow-y-auto hidden md:flex flex-col gap-6 custom-scrollbar">
+          <div className="flex items-center justify-between">
+            <h2 className="text-sm font-bold text-slate-300 flex items-center gap-2">
+              <BrainCircuit className="text-indigo-400" size={16} />
+              الذكاء الاستباقي
+            </h2>
+            <span className="text-[10px] uppercase font-mono text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded-full border border-emerald-400/20">Active</span>
+          </div>
+
+          <div className="flex flex-col gap-4">
+            <motion.div initial={{opacity: 0, x: -20}} animate={{opacity: 1, x: 0}} className="bg-slate-800/40 border border-slate-700/50 rounded-2xl p-4 relative overflow-hidden group hover:border-indigo-500/30 transition-colors">
+              <div className="absolute top-0 right-0 w-1 h-full bg-red-500"></div>
+              <div className="flex items-start gap-3 mb-2">
+                <AlertTriangle className="text-red-400 shrink-0 mt-0.5" size={18} />
+                <h3 className="font-bold text-white text-sm">مؤشر تسرب محتمل</h3>
+              </div>
+              <p className="text-slate-400 text-xs leading-relaxed mb-3">
+                تغيب الطالب "سالم عبدالله" لليوم الثالث. لوحظ انخفاض في التفاعل بنسبة 40% الأسبوع الماضي.
+              </p>
+              <button className="text-xs bg-slate-700/50 hover:bg-slate-700 text-white px-3 py-1.5 rounded-lg w-full flex items-center justify-center gap-1 transition-colors">
+                فتح ملف الطالب <ChevronLeft size={14} />
+              </button>
+            </motion.div>
+
+            <motion.div initial={{opacity: 0, x: -20}} animate={{opacity: 1, x: 0}} transition={{delay: 0.1}} className="bg-slate-800/40 border border-slate-700/50 rounded-2xl p-4 relative overflow-hidden group hover:border-indigo-500/30 transition-colors">
+              <div className="absolute top-0 right-0 w-1 h-full bg-emerald-500"></div>
+              <div className="flex items-start gap-3 mb-2">
+                <Sparkles className="text-emerald-400 shrink-0 mt-0.5" size={18} />
+                <h3 className="font-bold text-white text-sm">اقتراح مسار علاجي</h3>
+              </div>
+              <p className="text-slate-400 text-xs leading-relaxed mb-3">
+                30% من الطلاب أخطأوا في سؤال "قوانين نيوتن". تم توليد نشاط تفاعلي مخصص لسد الفجوة.
+              </p>
+              <button onClick={() => onSelect('exams_section')} className="text-xs bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/20 px-3 py-1.5 rounded-lg w-full flex items-center justify-center gap-1 transition-colors">
+                معاينة النشاط <ChevronLeft size={14} />
+              </button>
+            </motion.div>
+
+            <motion.div initial={{opacity: 0, x: -20}} animate={{opacity: 1, x: 0}} transition={{delay: 0.2}} className="bg-slate-800/40 border border-slate-700/50 rounded-2xl p-4 relative overflow-hidden group hover:border-indigo-500/30 transition-colors">
+              <div className="absolute top-0 right-0 w-1 h-full bg-blue-500"></div>
+              <div className="flex items-start gap-3 mb-2">
+                <Cpu className="text-blue-400 shrink-0 mt-0.5" size={18} />
+                <h3 className="font-bold text-white text-sm">أتمتة السجلات</h3>
+              </div>
+              <p className="text-slate-400 text-xs leading-relaxed mb-3">
+                تم الانتهاء من تصحيح 45 ورقة إجابة عبر OMR ورصدها تلقائياً في سجل الدرجات.
+              </p>
+              <button onClick={() => onSelect('grades_section')} className="text-xs bg-slate-700/50 hover:bg-slate-700 text-white px-3 py-1.5 rounded-lg w-full flex items-center justify-center gap-1 transition-colors">
+                عرض سجل الدرجات <ChevronLeft size={14} />
+              </button>
+            </motion.div>
+          </div>
+        </aside>
+
+        {/* Core Apps Grid */}
+        <main className="flex-1 p-6 md:p-10 overflow-y-auto custom-scrollbar">
+          <div className="max-w-5xl mx-auto">
+            <h2 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
+              <div className="w-1 h-6 bg-indigo-500 rounded-full shadow-[0_0_10px_rgba(99,102,241,0.8)]" />
+              تطبيقات النظام (Zero-Paper Workspace)
+            </h2>
+            
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+              {sections.map((section, index) => {
+                const Icon = iconMap[section.icon];
+                const isAI = ['ai_section', 'exams_section', 'smart_correction'].includes(section.id);
+                
+                return (
+                  <motion.button
+                    key={section.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.03 }}
+                    onClick={() => onSelect(section.id)}
+                    className="group relative bg-slate-800/40 hover:bg-slate-800 p-5 rounded-3xl border border-slate-700/50 hover:border-indigo-500/50 transition-all text-center flex flex-col items-center gap-4 cursor-pointer overflow-hidden"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    
+                    {isAI && (
+                      <div className="absolute top-3 right-3 text-indigo-400 animate-pulse">
+                        <Sparkles size={14} />
+                      </div>
+                    )}
+                    
+                    <div className={`p-4 rounded-2xl ${section.color} text-white shadow-lg group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(255,255,255,0.2)] transition-all duration-300 relative z-10`}>
+                      <Icon size={26} strokeWidth={1.5} />
+                    </div>
+                    
+                    <div className="relative z-10">
+                      <h3 className="font-bold text-slate-200 text-sm mb-1">{section.title}</h3>
+                      <p className="text-slate-500 text-[11px] leading-relaxed">
+                        {section.description}
+                      </p>
+                    </div>
+                  </motion.button>
+                );
+              })}
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  );
+}
+INNER_EOF
+
+
+==================================================
+END FILE 182
+==================================================
+

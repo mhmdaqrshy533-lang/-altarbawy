@@ -1,0 +1,142 @@
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;500;600;700;800;900&family=Noto+Naskh+Arabic:wght@400;600;700&family=Reem+Kufi:wght@500;700;900&family=Scheherazade+New:wght@400;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Cairo", "Noto Naskh Arabic", ui-sans-serif, system-ui, sans-serif;
+  --font-amiri: "Amiri", "Scheherazade New", serif;
+  --font-ruqaa: "Aref Ruqaa", "Amiri", serif;
+  --font-kufi: "Reem Kufi", "Cairo", sans-serif;
+  --font-naskh: "Scheherazade New", "Noto Naskh Arabic", serif;
+  --color-royal-green: #064e3b;
+  --color-royal-green-dark: #022c22;
+  --color-royal-green-light: #047857;
+  --color-royal-amber: #d97706;
+}
+
+:root {
+  direction: rtl;
+  
+  /* Light Theme Tokens - Sovereign Institutional Palette */
+  --bg-canvas: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-surface-elevated: #ffffff;
+  --bg-surface-muted: #f1f5f9;
+  --border-subtle: #e2e8f0;
+  --border-default: #cbd5e1;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --color-primary: #004B6E;
+  --color-primary-hover: #003B57;
+  --color-primary-active: #002B40;
+  --color-secondary: #0D7A68;
+}
+
+.dark {
+  /* Dark Theme Tokens - High Contrast, Eye-Safe Sovereign Palette (No harsh neon) */
+  --bg-canvas: #090d16;
+  --bg-surface: #0f172a;
+  --bg-surface-elevated: #1e293b;
+  --bg-surface-muted: #172033;
+  --border-subtle: #1e293b;
+  --border-default: #334155;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --color-primary: #0284c7;
+  --color-primary-hover: #0369a1;
+  --color-primary-active: #075985;
+  --color-secondary: #14b8a6;
+}
+
+body {
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  transition: background-color 0.2s ease, color 0.2s ease;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Fluid Typography Utilities with Responsive Clamp */
+.text-fluid-hero {
+  font-size: clamp(1.5rem, 4vw + 0.5rem, 2.75rem);
+  line-height: 1.25;
+}
+
+.text-fluid-title {
+  font-size: clamp(1.125rem, 2.5vw + 0.25rem, 1.75rem);
+  line-height: 1.35;
+}
+
+.text-fluid-body {
+  font-size: clamp(0.8125rem, 1vw + 0.5rem, 1rem);
+  line-height: 1.6;
+}
+
+/* Tabular numbers for grades, dates, and tables */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Safe Area Helpers */
+.safe-pb {
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom, 0px));
+}
+
+.safe-pt {
+  padding-top: max(0.5rem, env(safe-area-inset-top, 0px));
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Custom UI Utility System */
+.btn-primary {
+  @apply bg-[#004B6E] hover:bg-[#003B57] active:bg-[#002B40] text-white font-black text-xs px-4 py-2.5 rounded-2xl shadow-sm transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2;
+}
+
+.btn-secondary {
+  @apply bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 active:bg-slate-300 text-slate-800 dark:text-slate-100 font-bold text-xs px-4 py-2.5 rounded-2xl transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2;
+}
+
+.btn-ghost {
+  @apply bg-transparent hover:bg-slate-100 dark:hover:bg-slate-800 active:bg-slate-200 dark:active:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs px-3 py-1.5 rounded-2xl transition-all duration-150 flex items-center justify-center gap-2;
+}
+
+.btn-danger {
+  @apply bg-rose-700 hover:bg-rose-600 active:bg-rose-800 text-white font-bold text-xs px-4 py-2 rounded-xl shadow-sm transition-all duration-150 flex items-center justify-center gap-2;
+}
+
+.btn-icon {
+  @apply p-2 rounded-xl text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-all flex items-center justify-center;
+}
+
+.glass-card {
+  @apply bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-xs rounded-3xl;
+}
+
+@page {
+  size: A4 portrait;
+  margin: 0;
+}
+
+@media print {
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    background-color: white !important;
+  }
+}
+
+
