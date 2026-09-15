@@ -1,9 +1,20 @@
-export type QuestionType = 'tf' | 'mcq' | 'passage' | 'poetry' | 'essay' | 'fill';
+export type QuestionType = 'tf' | 'mcq' | 'matching' | 'passage' | 'poetry' | 'essay' | 'fill';
+
+export type BloomLevel = 'remember' | 'understand' | 'apply' | 'analyze' | 'evaluate' | 'create';
+
+export type QuestionDifficulty = 'easy' | 'medium' | 'hard';
 
 export interface QuestionOption {
   id: string;
-  label: string; // أ، ب، ج، د / 1، 2، 3، 4
+  label: string; // أ، ب، ج، د، هـ
   text: string;
+}
+
+export interface MatchingPair {
+  id: string;
+  leftText: string;
+  rightText: string;
+  correctMatch: string; // '1', '2', '3', '4' or letter
 }
 
 export interface ExamQuestion {
@@ -14,11 +25,14 @@ export interface ExamQuestion {
   text: string;
   points: number;
   options?: QuestionOption[];
-  correctAnswer?: string; // e.g. 'T', 'F' for TF, 'A', 'B', 'C', 'D' for MCQ, or index
-  passageText?: string; // For passage type or question context
-  poetryVerses?: string[]; // For poetry verses
+  matchingPairs?: MatchingPair[];
+  correctAnswer?: string; // e.g. 'T', 'F' for TF, 'A', 'B', 'C', 'D', 'E' for MCQ
+  passageText?: string; // For passage or poetry verses
+  poetryVerses?: string[]; // For poetry verses (صدر وعجز)
   essayLinesCount?: number; // Number of ruled lines for essay
   explanation?: string;
+  bloomLevel?: BloomLevel;
+  difficulty?: QuestionDifficulty;
 }
 
 export interface ExamHeader {
@@ -67,6 +81,7 @@ export interface ScannedBubbleResult {
   optionIndex: number;
   optionLabel: string;
   fillPercentage: number;
+  contrastRatio: number;
   isMarked: boolean;
   isAmbiguous: boolean;
   centerX: number;
@@ -104,6 +119,35 @@ export interface OMRGradingReport {
   scannedImageUrl?: string;
   processedCanvasUrl?: string;
   timestamp: string;
+}
+
+export interface QuestionItemStat {
+  questionNumber: number;
+  questionText: string;
+  type: QuestionType;
+  difficultyIndex: number; // 0.0 - 1.0 (proportion answering correctly)
+  discriminationIndex: number; // -1.0 - 1.0
+  correctCount: number;
+  wrongCount: number;
+  blankCount: number;
+}
+
+export interface ControlClassAnalytics {
+  totalStudents: number;
+  averageScore: number;
+  passCount: number;
+  failCount: number;
+  passPercentage: number;
+  highestScore: number;
+  lowestScore: number;
+  gradeDistribution: {
+    excellent: number; // >= 90%
+    veryGood: number;  // 80% - 89%
+    good: number;      // 65% - 79%
+    pass: number;      // 50% - 64%
+    fail: number;      // < 50%
+  };
+  itemStats: QuestionItemStat[];
 }
 
 export const MANDATORY_COPYRIGHT = 'محرر الرقيم التربوي — برمجة وتصميم المهندسين (سهيل الهزبري & سيف الدين الهزبري)';

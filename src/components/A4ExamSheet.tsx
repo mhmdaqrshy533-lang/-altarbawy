@@ -30,6 +30,7 @@ export const A4ExamSheet: React.FC<A4ExamSheetProps> = ({
   const tfQuestions = questions.filter(q => q.type === 'tf');
   const poetry = questions.find(q => q.type === 'poetry');
   const mcqQuestions = questions.filter(q => q.type === 'mcq');
+  const matchingQuestions = questions.filter(q => q.type === 'matching');
   const essayQuestions = questions.filter(q => q.type === 'essay');
 
   const fontClass = 
@@ -182,7 +183,7 @@ export const A4ExamSheet: React.FC<A4ExamSheetProps> = ({
         <div className="w-full bg-[#073823] text-white px-2 py-0.5 rounded-xs text-[7.2pt] font-bold mb-1 shadow-xs">
           <div className="flex items-center justify-between">
             <span className="w-1/4 text-right">الدرجة الكلية: ({header.totalMarks || 30} درجة)</span>
-            <span className="w-2/4 text-center">أجب مستعيناً بالله بظل الدائرة المعبرة عن الإجابة الصحيحة بالقلم الأزرق أو الأسود</span>
+            <span className="w-2/4 text-center">أجب مستعيناً بالله بتظليل الدائرة المعبرة عن الإجابة بالقلم الأزرق أو الأسود</span>
             <span className="w-1/4 text-left">نظام الأتمتة OMR — نموذج ({header.modelName || 'أ'})</span>
           </div>
         </div>
@@ -283,7 +284,7 @@ export const A4ExamSheet: React.FC<A4ExamSheetProps> = ({
           >
             <div className="text-[7pt] font-bold text-slate-600 mb-0.5">{poetry.text}</div>
             <div className="font-amiri text-[8.5pt] font-bold text-[#0d5c3a] tracking-wide">
-              {poetry.passageText || '"إِذَا المَلِكُ الجَبَّارُ صَعَّرَ خَدَّهُ ... مَشَيْنَا إلَيْهِ بالسُّيُوفِ نُعَاتِبُهْ"'}
+              {poetry.passageText || 'إِذَا المَلِكُ الجَبَّارُ صَعَّرَ خَدَّهُ ... مَشَيْنَا إلَيْهِ بالسُّيُوفِ نُعَاتِبُهْ'}
             </div>
           </div>
         )}
@@ -308,7 +309,7 @@ export const A4ExamSheet: React.FC<A4ExamSheetProps> = ({
 
                   return (
                     <tr 
-                      key={q.id || idx}
+                      key={q.id || idx} 
                       onClick={() => onEditQuestion?.(q)}
                       className="cursor-pointer hover:bg-emerald-50/50 transition border-b border-slate-100/70"
                     >
@@ -350,11 +351,57 @@ export const A4ExamSheet: React.FC<A4ExamSheetProps> = ({
           </div>
         )}
 
-        {/* SECTION 3: Written Essay & Expression (سؤال مقالي / تعبير كتابي) */}
+        {/* SECTION 3: Matching Tables (المزاوجة والتوصيل إن وجدت) */}
+        {matchingQuestions.length > 0 && (
+          <div className="mb-1">
+            <div className="font-extrabold bg-[#e8f0eb] px-2 py-0.5 border-r-[3.5px] border-r-[#0d5c3a] text-[7.8pt] text-[#073823] rounded-l-xs flex justify-between items-center mb-0.5">
+              <span>ثالثاً: أسئلة المزاوجة (صل من العمود أ إلى العمود ب):</span>
+              <span className="text-[6.8pt] font-bold text-[#0d5c3a]">[{matchingQuestions.reduce((a, b) => a + (b.points || 3), 0)} درجات]</span>
+            </div>
+
+            {matchingQuestions.map((mq, mqIdx) => (
+              <div 
+                key={mq.id || mqIdx}
+                onClick={() => onEditQuestion?.(mq)}
+                className="cursor-pointer hover:bg-emerald-50/40 p-1 rounded transition mb-1 border border-slate-200"
+              >
+                <div className="text-[7.2pt] font-bold text-[#111] mb-1">
+                  <b>{mq.questionNumber || (tfQuestions.length + mcqQuestions.length + 1)}.</b> {mq.text}
+                </div>
+
+                <div className="grid grid-cols-2 gap-2 text-[7pt]">
+                  <div className="border-l border-slate-200 pl-1 space-y-1">
+                    <div className="font-bold text-[#073823] bg-emerald-50/70 px-1 py-0.5 rounded">العمود ( أ )</div>
+                    {mq.matchingPairs?.map((pair, pIdx) => (
+                      <div key={pair.id} className="flex items-center gap-1.5">
+                        <span className="font-bold text-[#0d5c3a]">({pIdx + 1})</span>
+                        <span>{pair.leftText}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="space-y-1">
+                    <div className="font-bold text-[#073823] bg-emerald-50/70 px-1 py-0.5 rounded">العمود ( ب )</div>
+                    {mq.matchingPairs?.map((pair) => (
+                      <div key={pair.id} className="flex items-center gap-1.5">
+                        <span className="w-3.5 h-3.5 rounded-full border border-[#0d5c3a] text-center font-bold text-[6.5pt] flex items-center justify-center">
+                          {pair.correctMatch || '•'}
+                        </span>
+                        <span>{pair.rightText}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* SECTION 4: Written Essay & Expression (سؤال مقالي / تعبير كتابي) */}
         {essayQuestions.length > 0 && (
           <div className="mb-0.5">
             <div className="font-extrabold bg-[#e8f0eb] px-2 py-0.5 border-r-[3.5px] border-r-[#0d5c3a] text-[7.8pt] text-[#073823] rounded-l-xs flex justify-between items-center mb-0.5">
-              <span>ثالثاً: التعبير الكتابي والمقالي (يُصحح يدوياً بواسطة المعلم):</span>
+              <span>{matchingQuestions.length > 0 ? 'رابعاً' : 'ثالثاً'}: التعبير الكتابي والمقالي (يُصحح يدوياً بواسطة المعلم):</span>
               <span className="text-[6.8pt] font-bold text-[#0d5c3a]">[{essayQuestions.reduce((a, b) => a + (b.points || 3), 0)} درجات]</span>
             </div>
 
@@ -365,7 +412,7 @@ export const A4ExamSheet: React.FC<A4ExamSheetProps> = ({
                 className="cursor-pointer hover:bg-emerald-50/40 p-1 rounded transition"
               >
                 <div className="text-[7.2pt] text-[#111] mb-1">
-                  <b>{eq.questionNumber || (tfQuestions.length + mcqQuestions.length + 1)}.</b> {eq.text}
+                  <b>{eq.questionNumber || (tfQuestions.length + mcqQuestions.length + matchingQuestions.length + 1)}.</b> {eq.text}
                 </div>
                 
                 {/* Ruled lines for student handwriting */}

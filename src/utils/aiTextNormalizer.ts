@@ -1,7 +1,9 @@
 /**
- * AI Smart Text Normalizer & Layout Estimator
+ * AI Smart Text Normalizer, Layout Estimator & Bloom's Taxonomy Classifier
  * On-device client-side algorithm for Arabic typography and A4 layout optimization
  */
+
+import { BloomLevel, QuestionDifficulty } from '../types/exam';
 
 export class AITextNormalizer {
   // Regex for Arabic diacritics (Harakat)
@@ -42,14 +44,10 @@ export class AITextNormalizer {
   public static smartPunctuation(text: string): string {
     if (!text) return '';
     return text
-      // Replace English quotes with clean Arabic / standard quotes
       .replace(/[""]/g, '"')
       .replace(/['']/g, "'")
-      // Remove double spaces
       .replace(/[ \t]+/g, ' ')
-      // Fix spacing before punctuation (in Arabic, punctuation sticks to preceding word)
       .replace(/\s+([،؛:؟!.\-])/g, '$1')
-      // Ensure space after punctuation if followed by a letter
       .replace(/([،؛:؟!])([^\s0-9"'])/g, '$1 $2')
       .trim();
   }
@@ -80,6 +78,49 @@ export class AITextNormalizer {
   }
 
   /**
+   * Bloom's Taxonomy Classifier (Heuristic Keyword Analyzer for Arabic Exam Questions)
+   */
+  public static classifyBloomTaxonomy(questionText: string): {
+    level: BloomLevel;
+    arabicLabel: string;
+    suggestedDifficulty: QuestionDifficulty;
+  } {
+    const text = questionText.toLowerCase();
+
+    // 1. Remembering (تذكر)
+    if (/^(اذكر|عدد|عرف|سم|متى|أين|ما هو|ما هي|اختر|حدد|أكمل)/.test(text) || text.includes('معنى كلمة') || text.includes('مرادف')) {
+      return { level: 'remember', arabicLabel: 'تذكر واسترجاع', suggestedDifficulty: 'easy' };
+    }
+
+    // 2. Understanding (فهم واستيعاب)
+    if (/^(اشرح|وضح|بين|فسر|لخص|ما الفكرة|ما المقصود|استخرج)/.test(text) || text.includes('بحسب النص') || text.includes('يدل على')) {
+      return { level: 'understand', arabicLabel: 'فهم واستيعاب', suggestedDifficulty: 'medium' };
+    }
+
+    // 3. Applying (تطبيق)
+    if (/^(أعرب|اضبط|طبق|زن الكلمة|حول|استخدم|صغ|ما إعراب)/.test(text) || text.includes('إعراب') || text.includes('ميزان صرفي')) {
+      return { level: 'apply', arabicLabel: 'تطبيق نحوي وصرفي', suggestedDifficulty: 'medium' };
+    }
+
+    // 4. Analyzing (تحليل)
+    if (/^(علل|قارن|ميز بين|ما نوع المحسن|حلل|ما الغرض|ما علاقة)/.test(text) || text.includes('محسن بديعي') || text.includes('صورة بيانية') || text.includes('استعارة') || text.includes('كناية')) {
+      return { level: 'analyze', arabicLabel: 'تحليل وبلاغة', suggestedDifficulty: 'hard' };
+    }
+
+    // 5. Evaluating (تقويم)
+    if (/^(ما رأيك|احكم|انقد|برهن|دلل|علل صحة|فند)/.test(text)) {
+      return { level: 'evaluate', arabicLabel: 'تقويم ونقد', suggestedDifficulty: 'hard' };
+    }
+
+    // 6. Creating (ابتكار / تعبير)
+    if (/^(اكتب|انشئ|صمم|اقترح|لخص بأسلوبك|عبر)/.test(text)) {
+      return { level: 'create', arabicLabel: 'تركيب وتعبير كتابي', suggestedDifficulty: 'medium' };
+    }
+
+    return { level: 'understand', arabicLabel: 'فهم وتطبيق', suggestedDifficulty: 'medium' };
+  }
+
+  /**
    * AI Layout Metric: Calculate total text weight and estimated A4 line footprint
    * to ensure 100% single-page A4 compliance without overflowing.
    */
@@ -88,6 +129,7 @@ export class AITextNormalizer {
     passageCount: number;
     poetryCount: number;
     essayLinesCount: number;
+    matchingCount?: number;
     totalCharacters: number;
     fontSize: 'compact' | 'normal' | 'large';
   }): {
@@ -95,31 +137,29 @@ export class AITextNormalizer {
     status: 'optimal' | 'safe' | 'warning' | 'overflow';
     recommendation: string;
   } {
-    // Standard A4 Sheet budget in points / capacity score
     const maxCapacityUnits = 1000;
+    const fontMultiplier = params.fontSize === 'compact' ? 0.82 : params.fontSize === 'normal' ? 1.0 : 1.25;
     
-    // Weight factors
-    const fontMultiplier = params.fontSize === 'compact' ? 0.85 : params.fontSize === 'normal' ? 1.0 : 1.25;
+    const headerWeight = 190;
+    const questionWeight = params.questionCount * 36;
+    const passageWeight = params.passageCount * 75;
+    const poetryWeight = params.poetryCount * 60;
+    const matchingWeight = (params.matchingCount || 0) * 55;
+    const essayWeight = params.essayLinesCount * 22;
+    const charWeight = (params.totalCharacters / 100) * 10;
     
-    const headerWeight = 200; // Fixed header & student table
-    const questionWeight = params.questionCount * 38;
-    const passageWeight = params.passageCount * 80;
-    const poetryWeight = params.poetryCount * 65;
-    const essayWeight = params.essayLinesCount * 25;
-    const charWeight = (params.totalCharacters / 100) * 12;
-    
-    const rawTotal = (headerWeight + questionWeight + passageWeight + poetryWeight + essayWeight + charWeight) * fontMultiplier;
+    const rawTotal = (headerWeight + questionWeight + passageWeight + poetryWeight + matchingWeight + essayWeight + charWeight) * fontMultiplier;
     const percentage = Math.min(Math.round((rawTotal / maxCapacityUnits) * 100), 150);
 
     let status: 'optimal' | 'safe' | 'warning' | 'overflow' = 'optimal';
-    let recommendation = 'حجم المحتوى مثالي ومطابق لمعايير الصفحة الواحدة A4 بدقة.';
+    let recommendation = 'حجم المحتوى مثالي ومطابق لمعايير الصفحة الواحدة A4 بدقة (210mm × 297mm).';
 
     if (percentage <= 80) {
       status = 'optimal';
       recommendation = 'المحتوى مريح جداً، يمكنك إضافة أسئلة إضافية أو تكبير حجم الخط.';
     } else if (percentage <= 95) {
       status = 'safe';
-      recommendation = 'المحتوى متناسق تماماً ومطابق لارتفاع ورقة A4 (297mm).';
+      recommendation = 'المحتوى متناسق تماماً ومطابق لارتفاع ورقة A4.';
     } else if (percentage <= 105) {
       status = 'warning';
       recommendation = 'المحتوى يقترب من الهامش السفلي. يُفضل تفعيل وضع الخط المدمج (Compact) لتفادي الانزلاق.';
