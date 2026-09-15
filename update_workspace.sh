@@ -1,1 +1,0 @@
-sed -i "s/const \[activeTab, setActiveTab\] = useState<'ocr' | 'concepts' | 'questions'>('ocr');/const [activeTab, setActiveTab] = useState<'ocr' | 'concepts' | 'questions' | 'correction'>('ocr');/g" src/pages/AITeacherWorkspace.tsx
